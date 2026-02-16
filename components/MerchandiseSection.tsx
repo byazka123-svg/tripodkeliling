@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { allStoreItems, StoreItem } from '../data/store';
 import { View } from '../App';
+import { RightArrowIcon } from './Icons';
 
 interface MerchCardProps extends StoreItem {
   onNavigate: (view: View) => void;
@@ -21,9 +22,9 @@ const MerchCard: React.FC<MerchCardProps> = ({ id, image, name, price, category,
       <h3 className="font-bold text-white text-base md:text-lg flex-grow min-h-[56px] flex items-center">{name}</h3>
       <div className="mt-2 sm:mt-4 flex justify-between items-center">
         <p className="text-green-500 font-semibold text-base md:text-lg">{price}</p>
-        <span className="font-semibold text-sm text-green-500 group-hover:text-green-400 transition-colors">
-            Lihat Detail
-        </span>
+        <div className="w-8 h-8 rounded-full border-2 border-gray-600 flex items-center justify-center text-green-500 group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white transition-all duration-300">
+            <RightArrowIcon />
+        </div>
       </div>
     </div>
   </button>
