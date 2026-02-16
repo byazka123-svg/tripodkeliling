@@ -1,19 +1,35 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LocationMarkerIcon } from './Icons';
-import { allEvents, Event } from '../data/events';
 import { View } from '../App';
+import { STRAPI_URL } from '../config';
 
-interface EventItemProps extends Event {
+// --- Strapi Data Types ---
+interface EventAttributes {
+    title: string;
+    location: string;
+    date: string; // ISO String from Strapi
+    slug: string;
+}
+interface StrapiEvent {
+    id: number;
+    attributes: EventAttributes;
+}
+// --- End Strapi Data Types ---
+
+interface EventItemProps {
+  event: StrapiEvent;
   onNavigate: (view: View) => void;
 }
 
-const EventItem: React.FC<EventItemProps> = ({ id, date, title, location, onNavigate }) => {
-    const day = date.getDate();
-    const month = date.toLocaleString('id-ID', { month: 'short' }).toUpperCase();
+const EventItem: React.FC<EventItemProps> = ({ event, onNavigate }) => {
+    const { date, title, location, slug } = event.attributes;
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+    const month = dateObj.toLocaleString('id-ID', { month: 'short' }).toUpperCase();
 
     return (
-        <button onClick={() => onNavigate({ page: 'EventDetail', id })} className="w-full flex items-center bg-brand-gray p-4 rounded-lg gap-4 hover:bg-gray-800 transition-colors duration-300 border border-gray-700 text-left">
+        <button onClick={() => onNavigate({ page: 'EventDetail', id: slug })} className="w-full flex items-center bg-brand-gray p-4 rounded-lg gap-4 hover:bg-gray-800 transition-colors duration-300 border border-gray-700 text-left">
             <div className="flex-shrink-0 text-center bg-gray-900 rounded-lg p-2 w-16 h-16 flex flex-col justify-center items-center border border-green-500">
                 <span className="text-2xl font-bold text-white">{day}</span>
                 <span className="text-xs font-semibold text-green-500 uppercase">{month}</span>
@@ -43,9 +59,26 @@ interface EventSectionProps {
 
 const EventSection: React.FC<EventSectionProps> = ({ isPreview, onNavigate }) => {
   const [activeFilter, setActiveFilter] = useState('Semua Event');
+  const [allEvents, setAllEvents] = useState<StrapiEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch(`${STRAPI_URL}/api/events?sort=date:asc`);
+            const data = await response.json();
+            setAllEvents(data.data || []);
+        } catch (error) {
+            console.error("Failed to fetch events:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchEvents();
+  }, []);
 
   const filteredEvents = allEvents.filter(event => {
-    const eventDate = new Date(event.date.getTime());
+    const eventDate = new Date(event.attributes.date);
     const now = new Date();
     
     eventDate.setHours(0, 0, 0, 0);
@@ -101,9 +134,11 @@ const EventSection: React.FC<EventSectionProps> = ({ isPreview, onNavigate }) =>
         </div>
 
         <div className="space-y-4 max-w-4xl mx-auto">
-            {finalEvents.length > 0 ? (
+            {loading ? (
+                <div className="text-center text-gray-400">Memuat event...</div>
+            ) : finalEvents.length > 0 ? (
                 finalEvents.map((event) => (
-                    <EventItem key={event.id} {...event} onNavigate={onNavigate} />
+                    <EventItem key={event.id} event={event} onNavigate={onNavigate} />
                 ))
             ) : (
                 <div className="text-center py-10 px-6 bg-brand-gray rounded-lg">
@@ -112,7 +147,7 @@ const EventSection: React.FC<EventSectionProps> = ({ isPreview, onNavigate }) =>
             )}
         </div>
 
-        {isPreview && (
+        {isPreview && !loading && (
             <div className="text-center mt-12">
                 <button 
                     onClick={() => onNavigate({ page: 'Event' })} 

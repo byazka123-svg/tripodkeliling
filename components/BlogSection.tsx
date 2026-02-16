@@ -1,28 +1,48 @@
 
-import React, { useState } from 'react';
-import { allArticles, Article } from '../data/articles';
+import React, { useState, useEffect } from 'react';
 import { View } from '../App';
+import { STRAPI_URL } from '../config';
 
-interface ArticleCardProps extends Article {
+// --- Strapi Data Types ---
+interface StrapiMedia {
+    data: { attributes: { url: string; } }
+}
+interface ArticleAttributes {
+    title: string;
+    category: string;
+    thumbnail: StrapiMedia;
+    slug: string;
+}
+interface StrapiArticle {
+    id: number;
+    attributes: ArticleAttributes;
+}
+// --- End Strapi Data Types ---
+
+interface ArticleCardProps {
+    article: StrapiArticle;
     onNavigate: (view: View) => void;
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({ id, thumbnail, category, title, onNavigate }) => (
-    <button onClick={() => onNavigate({ page: 'ArticleDetail', id })} className="bg-brand-gray rounded-lg overflow-hidden group flex flex-col h-full text-left">
-        <div className="relative">
-            <img src={thumbnail} alt={title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
-        </div>
-        <div className="p-4 flex flex-col flex-grow">
-          <div className="mb-2">
-            <p className="text-green-500 text-xs font-bold uppercase">{category}</p>
-          </div>
-          <h3 className="text-sm sm:text-base font-bold text-white mb-3 flex-grow min-h-[48px]">{title}</h3>
-          <span className="font-semibold text-sm text-green-500 group-hover:text-green-400 transition-colors self-start mt-auto">
-            Baca Selengkapnya &rarr;
-          </span>
-        </div>
-    </button>
-);
+const ArticleCard: React.FC<ArticleCardProps> = ({ article, onNavigate }) => {
+    const { title, category, thumbnail, slug } = article.attributes;
+    return (
+        <button onClick={() => onNavigate({ page: 'ArticleDetail', id: slug })} className="bg-brand-gray rounded-lg overflow-hidden group flex flex-col h-full text-left">
+            <div className="relative">
+                <img src={`${STRAPI_URL}${thumbnail.data.attributes.url}`} alt={title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
+            </div>
+            <div className="p-4 flex flex-col flex-grow">
+              <div className="mb-2">
+                <p className="text-green-500 text-xs font-bold uppercase">{category}</p>
+              </div>
+              <h3 className="text-sm sm:text-base font-bold text-white mb-3 flex-grow min-h-[48px]">{title}</h3>
+              <span className="font-semibold text-sm text-green-500 group-hover:text-green-400 transition-colors self-start mt-auto">
+                Baca Selengkapnya &rarr;
+              </span>
+            </div>
+        </button>
+    );
+};
 
 const categories = ['Semua', 'Liputan', 'Edukasi', 'Dokumentasi'];
 
@@ -33,10 +53,27 @@ interface BlogSectionProps {
 
 const BlogSection: React.FC<BlogSectionProps> = ({ isPreview, onNavigate }) => {
   const [activeCategory, setActiveCategory] = useState('Semua');
+  const [allArticles, setAllArticles] = useState<StrapiArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+        try {
+            const response = await fetch(`${STRAPI_URL}/api/articles?populate=*`);
+            const data = await response.json();
+            setAllArticles(data.data || []);
+        } catch (error) {
+            console.error("Failed to fetch articles:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchArticles();
+  }, []);
 
   const filteredArticles = activeCategory === 'Semua' 
     ? allArticles
-    : allArticles.filter(article => article.category === activeCategory);
+    : allArticles.filter(article => article.attributes.category === activeCategory);
 
   const finalArticles = isPreview ? filteredArticles.slice(0, 3) : filteredArticles;
 
@@ -67,14 +104,18 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isPreview, onNavigate }) => {
             </button>
           ))}
         </div>
+        
+        {loading ? (
+            <div className="text-center text-gray-400">Memuat artikel...</div>
+        ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {finalArticles.map((article) => (
+                <ArticleCard key={article.id} article={article} onNavigate={onNavigate} />
+            ))}
+            </div>
+        )}
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {finalArticles.map((article) => (
-            <ArticleCard key={article.id} {...article} onNavigate={onNavigate} />
-          ))}
-        </div>
-
-        {isPreview && (
+        {isPreview && !loading && (
             <div className="text-center mt-12">
                 <button 
                     onClick={() => onNavigate({ page: 'Blog' })} 
