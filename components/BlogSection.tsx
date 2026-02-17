@@ -5,18 +5,15 @@ import { STRAPI_URL } from '../config';
 import { NewspaperIcon, CameraIcon, LightbulbIcon, ClipboardCheckIcon } from './Icons';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
-}
-interface ArticleAttributes {
-    title: string;
-    category: string;
-    thumbnail: StrapiMedia;
-    slug: string;
+interface StrapiMediaFlat {
+    url: string;
 }
 interface StrapiArticle {
     id: number;
-    attributes: ArticleAttributes;
+    title: string;
+    category: string;
+    thumbnail: StrapiMediaFlat;
+    slug: string;
 }
 // --- End Strapi Data Types ---
 
@@ -26,7 +23,7 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article, onNavigate }) => {
-    const { title, category, thumbnail, slug } = article.attributes;
+    const { title, category, thumbnail, slug } = article;
 
     const renderCategory = () => {
         let icon: React.ReactNode;
@@ -54,7 +51,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onNavigate }) => {
     return (
         <button onClick={() => onNavigate({ page: 'ArticleDetail', id: slug })} className="bg-brand-gray rounded-lg overflow-hidden group flex flex-col h-full text-left">
             <div className="relative">
-                <img src={`${STRAPI_URL}${thumbnail.data.attributes.url}`} alt={title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
+                <img src={`${STRAPI_URL}${thumbnail.url}`} alt={title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
             </div>
             <div className="p-4 flex flex-col flex-grow">
               <div className="mb-2">
@@ -98,7 +95,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isPreview, onNavigate }) => {
 
   const filteredArticles = activeCategory === 'Semua' 
     ? allArticles
-    : allArticles.filter(article => article.attributes.category === activeCategory);
+    : allArticles.filter(article => article.category === activeCategory);
 
   const finalArticles = isPreview ? filteredArticles.slice(0, 3) : filteredArticles;
 

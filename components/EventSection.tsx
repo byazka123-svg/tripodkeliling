@@ -5,15 +5,12 @@ import { View } from '../App';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface EventAttributes {
+interface StrapiEvent {
+    id: number;
     title: string;
     location: string;
     date: string; // ISO String from Strapi
     slug: string;
-}
-interface StrapiEvent {
-    id: number;
-    attributes: EventAttributes;
 }
 // --- End Strapi Data Types ---
 
@@ -23,7 +20,7 @@ interface EventItemProps {
 }
 
 const EventItem: React.FC<EventItemProps> = ({ event, onNavigate }) => {
-    const { date, title, location, slug } = event.attributes;
+    const { date, title, location, slug } = event;
     const dateObj = new Date(date);
     const day = dateObj.getDate();
     const month = dateObj.toLocaleString('id-ID', { month: 'short' }).toUpperCase();
@@ -78,7 +75,10 @@ const EventSection: React.FC<EventSectionProps> = ({ isPreview, onNavigate }) =>
   }, []);
 
   const filteredEvents = allEvents.filter(event => {
-    const eventDate = new Date(event.attributes.date);
+    if (!event?.date) {
+      return false;
+    }
+    const eventDate = new Date(event.date);
     const now = new Date();
     
     eventDate.setHours(0, 0, 0, 0);

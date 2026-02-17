@@ -5,19 +5,16 @@ import { STRAPI_URL } from '../config';
 import { CameraIcon, LightbulbIcon, ClipboardCheckIcon } from '../components/Icons';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
-}
-interface ArticleAttributes {
-    title: string;
-    category: string;
-    content: string;
-    thumbnail: StrapiMedia;
-    slug: string;
+interface StrapiMediaFlat {
+    url: string;
 }
 interface StrapiArticle {
     id: number;
-    attributes: ArticleAttributes;
+    title: string;
+    category: string;
+    content: string;
+    thumbnail: StrapiMediaFlat;
+    slug: string;
 }
 // --- End Strapi Data Types ---
 
@@ -96,18 +93,18 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate })
   return (
     <div className="pt-16 bg-brand-dark min-h-screen">
       <div className="relative h-64 md:h-96 w-full">
-        <img src={`${STRAPI_URL}${article.attributes.thumbnail.data.attributes.url}`} alt={article.attributes.title} className="w-full h-full object-cover" />
+        <img src={`${STRAPI_URL}${article.thumbnail.url}`} alt={article.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/50" />
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <div className="py-8 md:py-12">
             <div className="mb-6">
-                {renderCategoryWithIcon(article.attributes.category)}
-                <h1 className="text-3xl md:text-5xl font-extrabold text-white mt-2">{article.attributes.title}</h1>
+                {renderCategoryWithIcon(article.category)}
+                <h1 className="text-3xl md:text-5xl font-extrabold text-white mt-2">{article.title}</h1>
             </div>
             
             <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed text-justify">
-                {article.attributes.content.split('\n').map((paragraph, index) => (
+                {article.content.split('\n').map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
                 ))}
             </div>

@@ -8,9 +8,9 @@ interface NetworkProfileCardProps {
 }
 
 const NetworkProfileCard: React.FC<NetworkProfileCardProps> = ({ profile }) => {
-    const { name, category, tagline, portfolioLink, avatar } = profile.attributes;
-    const avatarUrl = avatar?.data?.attributes?.url 
-        ? `${STRAPI_URL}${avatar.data.attributes.url}` 
+    const { name, category, tagline, portfolioLink, avatar } = profile;
+    const avatarUrl = avatar?.url 
+        ? `${STRAPI_URL}${avatar.url}` 
         : 'https://via.placeholder.com/200'; // Fallback image
 
     return (

@@ -5,24 +5,21 @@ import NetworkProfileCard from '../components/NetworkProfileCard';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } } | null
+interface StrapiMediaFlat {
+    url: string;
 }
-export interface ProfileAttributes {
+export interface StrapiProfile {
+    id: number;
     name: string;
     category: 'Fotografer' | 'Videografer' | 'Drone Pilot' | 'MUA' | 'Model' | 'Mentor' | 'Brand';
-    avatar: StrapiMedia;
+    avatar: StrapiMediaFlat | null;
     tagline: string;
     portfolioLink: string;
     slug: string;
 }
-export interface StrapiProfile {
-    id: number;
-    attributes: ProfileAttributes;
-}
 // --- End Strapi Data Types ---
 
-type CategoryFilter = 'Semua' | ProfileAttributes['category'];
+type CategoryFilter = 'Semua' | StrapiProfile['category'];
 
 const categories: CategoryFilter[] = ['Semua', 'Fotografer', 'Videografer', 'Drone Pilot', 'MUA', 'Model', 'Mentor', 'Brand'];
 
@@ -52,7 +49,7 @@ const TripodNetworkPage: React.FC<TripodNetworkPageProps> = ({ onNavigate }) => 
 
     const filteredProfiles = activeCategory === 'Semua'
         ? allProfiles
-        : allProfiles.filter(profile => profile.attributes.category === activeCategory);
+        : allProfiles.filter(profile => profile.category === activeCategory);
 
     return (
         <div className="bg-brand-dark pt-16 md:pt-20 min-h-screen">

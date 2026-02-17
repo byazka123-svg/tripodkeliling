@@ -5,20 +5,17 @@ import { InstagramIcon } from '../components/Icons';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
-}
-interface MemberPostAttributes {
-    photographerName: string;
-    description: string;
-    postLink: string;
-    postImage: StrapiMedia;
-    photographerAvatar: StrapiMedia;
-    slug: string;
+interface StrapiMediaFlat {
+    url: string;
 }
 interface StrapiMemberPost {
     id: number;
-    attributes: MemberPostAttributes;
+    photographerName: string;
+    description: string;
+    postLink: string;
+    postImage: StrapiMediaFlat;
+    photographerAvatar: StrapiMediaFlat;
+    slug: string;
 }
 // --- End Strapi Data Types ---
 
@@ -71,20 +68,20 @@ const MemberPostDetailPage: React.FC<MemberPostDetailPageProps> = ({ id, onNavig
     );
   }
 
-  const { photographerName, photographerAvatar, postImage, postLink, description } = post.attributes;
+  const { photographerName, photographerAvatar, postImage, postLink, description } = post;
 
   return (
     <div className="pt-16 bg-brand-dark min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl py-12">
         <div className="bg-brand-gray rounded-lg overflow-hidden border border-gray-700">
             <div className="w-full aspect-square bg-black">
-                <img src={`${STRAPI_URL}${postImage.data.attributes.url}`} alt={`Karya ${photographerName}`} className="w-full h-full object-contain" />
+                <img src={`${STRAPI_URL}${postImage.url}`} alt={`Karya ${photographerName}`} className="w-full h-full object-contain" />
             </div>
 
             <div className="p-6 md:p-8">
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <img src={`${STRAPI_URL}${photographerAvatar.data.attributes.url}`} alt={photographerName} className="w-14 h-14 rounded-full border-2 border-gray-600" />
+                        <img src={`${STRAPI_URL}${photographerAvatar.url}`} alt={photographerName} className="w-14 h-14 rounded-full border-2 border-gray-600" />
                         <div>
                             <h2 className="text-xl font-bold text-white">{photographerName}</h2>
                             <p className="text-gray-400">Anggota Tripod Keliling</p>

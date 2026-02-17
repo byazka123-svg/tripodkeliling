@@ -4,18 +4,15 @@ import { View } from '../App';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
-}
-interface MemberPostAttributes {
-    photographerName: string;
-    postImage: StrapiMedia;
-    photographerAvatar: StrapiMedia;
-    slug: string;
+interface StrapiMediaFlat {
+    url: string;
 }
 interface StrapiMemberPost {
     id: number;
-    attributes: MemberPostAttributes;
+    photographerName: string;
+    postImage: StrapiMediaFlat;
+    photographerAvatar: StrapiMediaFlat;
+    slug: string;
 }
 // --- End Strapi Data Types ---
 
@@ -25,18 +22,18 @@ interface MemberPostCardProps {
 }
 
 const MemberPostCard: React.FC<MemberPostCardProps> = ({ post, onNavigate }) => {
-  const { slug, postImage, photographerAvatar, photographerName } = post.attributes;
+  const { slug, postImage, photographerAvatar, photographerName } = post;
   return (
     <div className="bg-brand-gray rounded-lg overflow-hidden group shadow-lg cursor-pointer" onClick={() => onNavigate({ page: 'MemberDetail', id: slug })}>
       <div className="block overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
         <img
-          src={`${STRAPI_URL}${postImage.data.attributes.url}`}
+          src={`${STRAPI_URL}${postImage.url}`}
           alt={`Karya foto oleh ${photographerName}`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
       <div className="p-4 flex items-center space-x-3">
-          <img src={`${STRAPI_URL}${photographerAvatar.data.attributes.url}`} alt={photographerName} className="w-10 h-10 rounded-full border-2 border-gray-600" />
+          <img src={`${STRAPI_URL}${photographerAvatar.url}`} alt={photographerName} className="w-10 h-10 rounded-full border-2 border-gray-600" />
           <div>
               <h4 className="font-bold text-white leading-tight">{photographerName}</h4>
               <span

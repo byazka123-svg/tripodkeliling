@@ -5,19 +5,16 @@ import { RightArrowIcon } from './Icons';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
-}
-interface StoreItemAttributes {
-    name: string;
-    price: string;
-    category: string;
-    image: StrapiMedia;
-    slug: string;
+interface StrapiMediaFlat {
+    url: string;
 }
 interface StrapiStoreItem {
     id: number;
-    attributes: StoreItemAttributes;
+    name: string;
+    price: string;
+    category: string;
+    image: StrapiMediaFlat;
+    slug: string;
 }
 // --- End Strapi Data Types ---
 
@@ -28,12 +25,12 @@ interface MerchCardProps {
 }
 
 const MerchCard: React.FC<MerchCardProps> = ({ item, onNavigate }) => {
-  const { name, price, category, image, slug } = item.attributes;
+  const { name, price, category, image, slug } = item;
   return (
     <button onClick={() => onNavigate({ page: 'ProductDetail', id: slug })} className="bg-brand-gray rounded-lg overflow-hidden group shadow-lg flex flex-col text-left h-full">
       <div className="relative overflow-hidden aspect-square">
         <img
-          src={`${STRAPI_URL}${image.data.attributes.url}`}
+          src={`${STRAPI_URL}${image.url}`}
           alt={`Produk: ${name}`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -81,7 +78,7 @@ const MerchandiseSection: React.FC<MerchandiseSectionProps> = ({ isPreview, onNa
 
   const filteredItems = activeCategory === 'Semua'
     ? allStoreItems
-    : allStoreItems.filter(item => item.attributes.category === activeCategory);
+    : allStoreItems.filter(item => item.category === activeCategory);
 
   const finalItems = isPreview ? allStoreItems.slice(0, 3) : filteredItems;
 

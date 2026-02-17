@@ -5,20 +5,17 @@ import CheckoutModal from '../components/CheckoutModal';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
-interface StrapiMedia {
-    data: { attributes: { url: string; } }
+interface StrapiMediaFlat {
+    url: string;
 }
-interface StoreItemAttributes {
+interface StrapiStoreItem {
+    id: number;
     name: string;
     price: string;
     category: string;
     description: string;
-    image: StrapiMedia;
+    image: StrapiMediaFlat;
     slug: string;
-}
-interface StrapiStoreItem {
-    id: number;
-    attributes: StoreItemAttributes;
 }
 // --- End Strapi Data Types ---
 
@@ -80,8 +77,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ id, onNavigate })
     );
   }
   
-  const { name, category, price, description, image } = product.attributes;
-  const imageUrl = `${STRAPI_URL}${image.data.attributes.url}`;
+  const { name, category, price, description, image } = product;
+  const imageUrl = `${STRAPI_URL}${image.url}`;
 
   return (
     <>
