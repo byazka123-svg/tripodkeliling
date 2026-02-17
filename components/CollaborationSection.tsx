@@ -1,23 +1,25 @@
 
 import React, { useState } from 'react';
 import { CameraIcon, UsersIcon, SparklesIcon } from './Icons';
+import { View } from '../App';
 
 interface CollaborationCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
+  onNavigate: (view: View) => void;
 }
 
-const CollaborationCard: React.FC<CollaborationCardProps> = ({ icon, title, description }) => (
+const CollaborationCard: React.FC<CollaborationCardProps> = ({ icon, title, description, onNavigate }) => (
   <div className="bg-brand-gray border border-gray-700 rounded-lg p-4 md:p-8 group hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col">
     <div className="text-green-500 mb-4">
       {icon}
     </div>
     <h3 className="text-base md:text-xl font-bold text-white mb-2">{title}</h3>
     <p className="text-sm md:text-base text-gray-400 flex-grow mb-4">{description}</p>
-    <a href="#" className="mt-auto self-start text-xs md:text-sm font-bold text-green-500 border border-green-500 rounded-full px-3 md:px-4 py-2 hover:bg-green-600 hover:text-white transition-all duration-300">
+    <button onClick={() => onNavigate({ page: 'Kolaborasi' })} className="mt-auto self-start text-xs md:text-sm font-bold text-green-500 border border-green-500 rounded-full px-3 md:px-4 py-2 hover:bg-green-600 hover:text-white transition-all duration-300">
         Pelajari
-    </a>
+    </button>
   </div>
 );
 
@@ -39,7 +41,12 @@ const collaborations = [
     }
   ];
 
-const CollaborationSection: React.FC = () => {
+interface CollaborationSectionProps {
+    isPreview?: boolean;
+    onNavigate: (view: View) => void;
+}
+
+const CollaborationSection: React.FC<CollaborationSectionProps> = ({ isPreview, onNavigate }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Swipe gesture handlers for mobile
@@ -103,7 +110,7 @@ const CollaborationSection: React.FC = () => {
                 >
                     {collaborations.map((collab, index) => (
                          <div key={index} className="w-1/2 flex-shrink-0 px-2">
-                             <CollaborationCard {...collab} />
+                             <CollaborationCard {...collab} onNavigate={onNavigate} />
                          </div>
                     ))}
                 </div>
@@ -127,9 +134,20 @@ const CollaborationSection: React.FC = () => {
         {/* Desktop Grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-8">
             {collaborations.map((collab, index) => (
-                <CollaborationCard key={index} {...collab} />
+                <CollaborationCard key={index} {...collab} onNavigate={onNavigate} />
             ))}
         </div>
+
+        {isPreview && (
+            <div className="text-center mt-12">
+                <button 
+                    onClick={() => onNavigate({ page: 'Kolaborasi' })} 
+                    className="border-2 border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-3 px-8 rounded-md text-lg transition-all duration-300 transform hover:scale-105"
+                >
+                    Pelajari Lebih Lanjut
+                </button>
+            </div>
+        )}
       </div>
     </section>
   );

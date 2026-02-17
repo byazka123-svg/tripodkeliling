@@ -14,6 +14,7 @@ import MemberPostDetailPage from './pages/MemberPostDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import LoginPage from './pages/LoginPage';
 import TripodNetworkPage from './pages/TripodNetworkPage';
+import DonationPage from './pages/DonationPage';
 
 export interface View {
   page: string;
@@ -35,7 +36,9 @@ const App: React.FC = () => {
       case 'Blog':
         return <BlogPage onNavigate={handleNavigate} />;
       case 'Kolaborasi':
-        return <CollaborationPage />;
+        return <CollaborationPage onNavigate={handleNavigate} />;
+      case 'Donasi':
+        return <DonationPage />;
       case 'Store':
         return <StorePage onNavigate={handleNavigate} />;
       case 'Network':
@@ -59,9 +62,9 @@ const App: React.FC = () => {
   const showNavAndFooter = currentView.page !== 'Login';
 
   return (
-    <div className="bg-brand-dark text-white font-sans">
+    <div className={`bg-brand-dark text-white font-sans ${showNavAndFooter ? "pb-16 md:pb-0" : ""}`}>
       {showNavAndFooter && <Navbar currentView={currentView} onNavigate={handleNavigate} />}
-      <main className={showNavAndFooter ? "pb-16 md:pb-0" : ""}>
+      <main>
         {renderPage()}
       </main>
       {showNavAndFooter && <Footer />}

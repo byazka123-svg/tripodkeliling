@@ -24,7 +24,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <MemberSpotlight onNavigate={onNavigate}/>
       <BlogSection isPreview onNavigate={onNavigate} />
       <TripodNetworkSection onNavigate={onNavigate} />
-      <CollaborationSection />
+      <CollaborationSection isPreview onNavigate={onNavigate} />
       <MerchandiseSection isPreview onNavigate={onNavigate} />
       <DonationSection />
     </>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from '../App';
 import { STRAPI_URL } from '../config';
+import { CameraIcon, LightbulbIcon, ClipboardCheckIcon } from '../components/Icons';
 
 // --- Strapi Data Types ---
 interface StrapiMedia {
@@ -69,6 +70,29 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate })
     );
   }
 
+  const renderCategoryWithIcon = (category: string) => {
+    let icon: React.ReactNode;
+    switch (category) {
+        case 'Edukasi':
+            icon = <LightbulbIcon className="h-4 w-4 mr-2" />;
+            break;
+        case 'Liputan':
+            icon = <CameraIcon className="h-4 w-4 mr-2" />;
+            break;
+        case 'Dokumentasi':
+            icon = <ClipboardCheckIcon className="h-4 w-4 mr-2" />;
+            break;
+        default:
+            icon = null;
+    }
+    return (
+        <div className="flex items-center text-green-500 text-sm font-bold uppercase">
+            {icon}
+            <span>{category}</span>
+        </div>
+    );
+  };
+
   return (
     <div className="pt-16 bg-brand-dark min-h-screen">
       <div className="relative h-64 md:h-96 w-full">
@@ -78,7 +102,7 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate })
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <div className="py-8 md:py-12">
             <div className="mb-6">
-                <p className="text-green-500 text-sm font-bold uppercase">{article.attributes.category}</p>
+                {renderCategoryWithIcon(article.attributes.category)}
                 <h1 className="text-3xl md:text-5xl font-extrabold text-white mt-2">{article.attributes.title}</h1>
             </div>
             

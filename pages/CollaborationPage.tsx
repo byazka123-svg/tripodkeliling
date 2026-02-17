@@ -4,6 +4,7 @@ import CollaborationSection from '../components/CollaborationSection';
 import CollaborationProcess from '../components/CollaborationProcess';
 import PastCollaborations from '../components/PastCollaborations';
 import { ChevronDownIcon, HandshakeIcon, CameraIcon, UsersIcon, SparklesIcon } from '../components/Icons';
+import { View } from '../App';
 
 interface FAQItemProps {
     question: string;
@@ -64,7 +65,11 @@ const CollaborationDetailItem: React.FC<{ icon: React.ReactNode; title: string; 
     </div>
 );
 
-const CollaborationPage: React.FC = () => {
+interface CollaborationPageProps {
+    onNavigate: (view: View) => void;
+}
+
+const CollaborationPage: React.FC<CollaborationPageProps> = ({ onNavigate }) => {
   return (
     <div className="bg-brand-dark">
       {/* Hero Section */}
@@ -80,7 +85,7 @@ const CollaborationPage: React.FC = () => {
       </section>
 
       {/* Collaboration Opportunities Section */}
-      <CollaborationSection />
+      <CollaborationSection onNavigate={onNavigate} />
       
       {/* Detail Section */}
       <section className="py-20 bg-brand-gray">
@@ -95,25 +100,44 @@ const CollaborationPage: React.FC = () => {
               </div>
               <div className="space-y-12">
                   <CollaborationDetailItem icon={<CameraIcon />} title="Talent/Model: Kembangkan Portofolio">
-                      <p>
-                          Kami secara rutin mengadakan sesi foto dengan konsep yang unik dan menantang. Ini adalah kesempatan emas bagi para <strong>model, MUA (Make-Up Artist), dan desainer</strong> untuk memperkaya portofolio mereka. Kolaborasi ini umumnya bersifat <strong>TFP (Time for Print)</strong>, di mana tidak ada transaksi uang, melainkan pertukaran jasa untuk hasil karya yang bisa digunakan oleh semua pihak. Anda akan bekerja dengan fotografer-fotografer berbakat kami dalam lingkungan yang profesional dan suportif.
-                      </p>
+                      <>
+                        <p>
+                            Kesempatan emas bagi para <strong>model, MUA (Make-Up Artist), dan desainer</strong> untuk memperkaya portofolio melalui sesi foto berkonsep unik. Kolaborasi ini bersifat <strong>TFP (Time for Print)</strong>, di mana kita bertukar jasa untuk menghasilkan karya berkualitas yang dapat digunakan bersama.
+                        </p>
+                        <h4 className="font-semibold text-white mt-4 mb-2">Apa yang Anda Dapatkan:</h4>
+                        <ul className="list-disc list-inside space-y-2 text-gray-300">
+                            <li>Hasil foto berkualitas tinggi untuk portofolio Anda.</li>
+                            <li>Kesempatan bekerja sama dengan fotografer-fotografer berbakat.</li>
+                            <li>Pengalaman dalam sesi pemotretan yang profesional dan suportif.</li>
+                        </ul>
+                      </>
                   </CollaborationDetailItem>
                   <CollaborationDetailItem icon={<UsersIcon />} title="Dokumentasi & Liputan: Media Partnership">
-                      <p>
-                          Apakah Anda menyelenggarakan seminar, workshop, konser musik, atau acara komunitas? Jadikan Tripod Keliling sebagai <strong>media partner</strong> Anda. Tim kami siap meliput dan mendokumentasikan acara Anda dari awal hingga akhir. Keuntungannya? Anda tidak hanya mendapatkan dokumentasi visual berkualitas tinggi, tetapi juga publikasi di seluruh kanal media sosial kami, menjangkau audiens yang relevan dan lebih luas.
-                      </p>
+                      <>
+                        <p>
+                            Jadikan Tripod Keliling sebagai <strong>media partner</strong> resmi untuk acara Anda, baik itu seminar, workshop, konser, atau kegiatan komunitas. Tim kami siap meliput dan mendokumentasikan momen-momen penting acara Anda secara profesional.
+                        </p>
+                        <h4 className="font-semibold text-white mt-4 mb-2">Keuntungan Media Partnership:</h4>
+                        <ul className="list-disc list-inside space-y-2 text-gray-300">
+                            <li>Dokumentasi visual (foto/video) berkualitas tinggi.</li>
+                            <li>Publikasi dan promosi acara di seluruh kanal media sosial kami.</li>
+                            <li>Jangkauan audiens yang lebih luas dan relevan.</li>
+                        </ul>
+                      </>
                   </CollaborationDetailItem>
                   <CollaborationDetailItem icon={<SparklesIcon />} title="Brand/Organization: Sinergi Kreatif">
-                       <p>
-                          Kami membuka pintu seluas-luasnya bagi <strong>brand, perusahaan, atau organisasi</strong> untuk bersinergi. Bentuk kerjasamanya bisa sangat beragam, mulai dari:
-                      </p>
-                      <ul className="list-disc list-inside space-y-2 text-gray-300">
-                          <li><strong>Sponsorship:</strong> Dukung event kami dan dapatkan eksposur brand yang maksimal.</li>
-                          <li><strong>Product Launching:</strong> Biarkan kami mendokumentasikan peluncuran produk Anda dengan visual yang memukau.</li>
-                          <li><strong>Review Gear:</strong> Kirimkan produk Anda untuk diulas secara jujur dan mendalam oleh anggota kami.</li>
-                          <li><strong>Workshop Bersama:</strong> Selenggarakan workshop fotografi bersama kami untuk menjangkau target pasar Anda.</li>
-                      </ul>
+                       <>
+                        <p>
+                            Kami membuka pintu seluas-luasnya bagi <strong>brand, perusahaan, atau organisasi</strong> untuk bersinergi dalam proyek-proyek kreatif yang saling menguntungkan dan berdampak.
+                        </p>
+                        <h4 className="font-semibold text-white mt-4 mb-2">Bentuk Kerjasama Populer:</h4>
+                        <ul className="list-disc list-inside space-y-2 text-gray-300">
+                            <li><strong>Sponsorship:</strong> Dukung event kami dan dapatkan eksposur brand yang maksimal.</li>
+                            <li><strong>Product Launching:</strong> Liputan visual yang memukau untuk peluncuran produk baru Anda.</li>
+                            <li><strong>Review Gear:</strong> Ulasan produk yang jujur dan mendalam oleh para pegiat fotografi.</li>
+                            <li><strong>Workshop Bersama:</strong> Jangkau target pasar Anda melalui workshop fotografi yang kami selenggarakan.</li>
+                        </ul>
+                       </>
                   </CollaborationDetailItem>
               </div>
           </div>

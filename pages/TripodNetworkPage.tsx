@@ -1,10 +1,28 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from '../App';
-import { mockProfiles, Profile } from '../data/network';
 import NetworkProfileCard from '../components/NetworkProfileCard';
+import { STRAPI_URL } from '../config';
 
-type CategoryFilter = 'Semua' | Profile['category'];
+// --- Strapi Data Types ---
+interface StrapiMedia {
+    data: { attributes: { url: string; } } | null
+}
+export interface ProfileAttributes {
+    name: string;
+    category: 'Fotografer' | 'Videografer' | 'Drone Pilot' | 'MUA' | 'Model' | 'Mentor' | 'Brand';
+    avatar: StrapiMedia;
+    tagline: string;
+    portfolioLink: string;
+    slug: string;
+}
+export interface StrapiProfile {
+    id: number;
+    attributes: ProfileAttributes;
+}
+// --- End Strapi Data Types ---
+
+type CategoryFilter = 'Semua' | ProfileAttributes['category'];
 
 const categories: CategoryFilter[] = ['Semua', 'Fotografer', 'Videografer', 'Drone Pilot', 'MUA', 'Model', 'Mentor', 'Brand'];
 
@@ -14,13 +32,27 @@ interface TripodNetworkPageProps {
 
 const TripodNetworkPage: React.FC<TripodNetworkPageProps> = ({ onNavigate }) => {
     const [activeCategory, setActiveCategory] = useState<CategoryFilter>('Semua');
+    const [allProfiles, setAllProfiles] = useState<StrapiProfile[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProfiles = async () => {
+            try {
+                const response = await fetch(`${STRAPI_URL}/api/profiles?populate=*`);
+                const data = await response.json();
+                setAllProfiles(data.data || []);
+            } catch (error) {
+                console.error("Failed to fetch profiles:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProfiles();
+    }, []);
 
     const filteredProfiles = activeCategory === 'Semua'
-        ? mockProfiles
-        : mockProfiles.filter(profile => {
-            // Group MUA and Model together for filtering if needed, but here we separate
-            return profile.category === activeCategory;
-        });
+        ? allProfiles
+        : allProfiles.filter(profile => profile.attributes.category === activeCategory);
 
     return (
         <div className="bg-brand-dark pt-16 md:pt-20 min-h-screen">
@@ -57,7 +89,9 @@ const TripodNetworkPage: React.FC<TripodNetworkPageProps> = ({ onNavigate }) => 
                     </div>
 
                     {/* Profiles Grid */}
-                    {filteredProfiles.length > 0 ? (
+                    {loading ? (
+                        <div className="text-center text-gray-400">Memuat profil...</div>
+                    ) : filteredProfiles.length > 0 ? (
                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                             {filteredProfiles.map(profile => (
                                 <NetworkProfileCard key={profile.id} profile={profile} />

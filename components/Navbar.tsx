@@ -17,7 +17,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = ['Beranda', 'Event', 'Blog', 'Network', 'Kolaborasi'];
+  const navLinks = ['Beranda', 'Event', 'Blog', 'Network', 'Kolaborasi', 'Donasi'];
 
   const handleLinkClick = (link: string) => {
     onNavigate({ page: link });
