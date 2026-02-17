@@ -12,6 +12,8 @@ import ArticleDetailPage from './pages/ArticleDetailPage';
 import EventDetailPage from './pages/EventDetailPage';
 import MemberPostDetailPage from './pages/MemberPostDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import LoginPage from './pages/LoginPage';
+import TripodNetworkPage from './pages/TripodNetworkPage';
 
 export interface View {
   page: string;
@@ -36,6 +38,8 @@ const App: React.FC = () => {
         return <CollaborationPage />;
       case 'Store':
         return <StorePage onNavigate={handleNavigate} />;
+      case 'Network':
+        return <TripodNetworkPage onNavigate={handleNavigate} />;
       case 'ArticleDetail':
         return <ArticleDetailPage id={currentView.id ?? ''} onNavigate={handleNavigate} />;
       case 'EventDetail':
@@ -44,20 +48,24 @@ const App: React.FC = () => {
         return <MemberPostDetailPage id={currentView.id ?? ''} onNavigate={handleNavigate} />;
       case 'ProductDetail':
         return <ProductDetailPage id={currentView.id ?? ''} onNavigate={handleNavigate} />;
+      case 'Login':
+        return <LoginPage onNavigate={handleNavigate} />;
       case 'Beranda':
       default:
         return <HomePage onNavigate={handleNavigate} />;
     }
   };
+  
+  const showNavAndFooter = currentView.page !== 'Login';
 
   return (
-    <div className="bg-brand-dark text-white font-sans pb-16 md:pb-0">
-      <Navbar currentView={currentView} onNavigate={handleNavigate} />
-      <main>
+    <div className="bg-brand-dark text-white font-sans">
+      {showNavAndFooter && <Navbar currentView={currentView} onNavigate={handleNavigate} />}
+      <main className={showNavAndFooter ? "pb-16 md:pb-0" : ""}>
         {renderPage()}
       </main>
-      <Footer />
-      <BottomNavbar currentView={currentView} onNavigate={handleNavigate} />
+      {showNavAndFooter && <Footer />}
+      {showNavAndFooter && <BottomNavbar currentView={currentView} onNavigate={handleNavigate} />}
     </div>
   );
 };

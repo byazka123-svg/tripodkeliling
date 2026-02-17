@@ -17,12 +17,17 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = ['Beranda', 'Event', 'Blog', 'Kolaborasi'];
+  const navLinks = ['Beranda', 'Event', 'Blog', 'Network', 'Kolaborasi'];
 
   const handleLinkClick = (link: string) => {
     onNavigate({ page: link });
     setIsOpen(false);
   };
+
+  const handleLoginClick = () => {
+    onNavigate({ page: 'Login' });
+    setIsOpen(false);
+  }
 
   return (
     <header className="bg-brand-dark/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
@@ -49,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             </div>
           </div>
           <div className="hidden md:block">
-            <button className="border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
+            <button onClick={handleLoginClick} className="border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
               Login/Register
             </button>
           </div>
@@ -83,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               </button>
             ))}
              <div className="pt-2 px-2">
-                <button className="w-full border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
+                <button onClick={handleLoginClick} className="w-full border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
                     Login/Register
                 </button>
              </div>

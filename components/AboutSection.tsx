@@ -49,21 +49,21 @@ const AboutSection: React.FC = () => {
                     {/* Left Column: About Text */}
                     <div className="text-left">
                          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
-                            Tentang Tripod Keliling<span className="text-green-500">.</span>
+                            Lebih dari Sekadar Komunitas<span className="text-green-500">.</span>
                         </h2>
                         <p className="mt-4 text-sm sm:text-base text-gray-300 text-justify">
-                            Tripod Keliling adalah wadah bagi para pegiat fotografi di Bekasi dan sekitarnya untuk terhubung, belajar, dan tumbuh bersama. Berdiri dari semangat kolaborasi, kami percaya bahwa setiap orang punya cerita unik untuk dibagikan melalui lensa.
+                            Tripod Keliling lahir dari keyakinan bahwa fotografi adalah perjalanan kolektif. Kami bukan hanya sekumpulan orang dengan kamera, tapi sebuah keluarga kreatif yang saling mendukung di Bekasi dan sekitarnya.
                         </p>
                          <p className="mt-4 text-sm sm:text-base text-gray-300 text-justify">
-                           Dari hunting foto bersama, workshop, hingga proyek kolaboratif, kami berupaya menciptakan ekosistem yang suportif dan inspiratif bagi semua anggota, tak peduli level keahlian mereka.
+                           Setiap hunting, workshop, dan proyek kolaborasi adalah bab baru dalam cerita kita. Di sini, setiap lensa punya suara, dan setiap suara kami dengarkan. Mari tumbuh bersama kami.
                         </p>
                     </div>
 
                     {/* Right Column: Sleek Stats Counter */}
                     <div className="flex flex-col justify-center divide-y divide-gray-700">
-                        <StatCard endValue={1000} suffix="+" label="Partisipan" />
-                        <StatCard endValue={50} suffix="+" label="Kegiatan" />
-                        <StatCard endValue={300} suffix="+" label="Kolaborator" />
+                        <StatCard endValue={1000} suffix="+" label="Partisipan Event" />
+                        <StatCard endValue={300} suffix="+" label="Anggota & Kolaborator" />
+                        <StatCard endValue={50} suffix="+" label="Kegiatan Sejak 2020" />
                     </div>
                 </div>
             </div>

@@ -25,17 +25,17 @@ const collaborations = [
     {
       icon: <CameraIcon />,
       title: "Talent/Model",
-      description: "Open Collaboration for Photoshoot Concepts"
+      description: "Kembangkan portofolio Anda melalui proyek TFP (Time for Print) yang kreatif dan terkonsep bersama fotografer kami."
     },
     {
       icon: <UsersIcon />,
-      title: "Event",
-      description: "Jasa Dokumentasi & Liputan Acara"
+      title: "Dokumentasi & Liputan",
+      description: "Butuh liputan media? Jadikan kami media partner untuk mendokumentasikan dan mempublikasikan event Anda ke audiens yang lebih luas."
     },
     {
       icon: <SparklesIcon />,
       title: "Brand/Organization",
-      description: "Review Gear & Sponsorship Workshop"
+      description: "Kerjasama sponsorship, peluncuran produk, review gear, hingga penyelenggaraan workshop untuk mencapai tujuan bersama."
     }
   ];
 

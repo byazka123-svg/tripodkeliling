@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { HomeIcon, CalendarIcon, NewspaperIcon, ShoppingBagIcon } from './Icons';
+import { HomeIcon, CalendarIcon, NewspaperIcon, UsersIcon } from './Icons';
 import { View } from '../App';
 
 const navItems = [
   { name: 'Beranda', icon: <HomeIcon /> },
   { name: 'Event', icon: <CalendarIcon isBottomNav={true} /> },
   { name: 'Blog', icon: <NewspaperIcon /> },
-  { name: 'Store', icon: <ShoppingBagIcon isBottomNav={true} /> },
+  { name: 'Network', icon: <UsersIcon isBottomNav={true} /> },
 ];
 
 interface BottomNavbarProps {

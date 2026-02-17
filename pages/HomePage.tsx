@@ -6,6 +6,7 @@ import CollaborationSection from '../components/CollaborationSection';
 import EventSection from '../components/EventSection';
 import BlogSection from '../components/BlogSection';
 import MemberSpotlight from '../components/MemberSpotlight';
+import TripodNetworkSection from '../components/TripodNetworkSection';
 import MerchandiseSection from '../components/MerchandiseSection';
 import DonationSection from '../components/DonationSection';
 import { View } from '../App';
@@ -17,12 +18,13 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
     <>
-      <HeroSection />
+      <HeroSection onNavigate={onNavigate} />
       <AboutSection />
-      <CollaborationSection />
       <EventSection isPreview onNavigate={onNavigate} />
-      <BlogSection isPreview onNavigate={onNavigate} />
       <MemberSpotlight onNavigate={onNavigate}/>
+      <BlogSection isPreview onNavigate={onNavigate} />
+      <TripodNetworkSection onNavigate={onNavigate} />
+      <CollaborationSection />
       <MerchandiseSection isPreview onNavigate={onNavigate} />
       <DonationSection />
     </>
