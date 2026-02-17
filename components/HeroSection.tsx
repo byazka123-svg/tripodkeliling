@@ -8,7 +8,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   return (
-    <section className="relative h-screen flex items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "url('https://picsum.photos/1920/1080?grayscale&blur=2')" }}>
+    <section className="relative h-screen flex items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "url('https://ik.imagekit.io/hrctvvb3m/wsdwdw.png')" }}>
       <div className="absolute inset-0 bg-black/60"></div>
       
       {/* Main Hero Content */}
