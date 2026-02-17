@@ -39,7 +39,13 @@ const EventDetailPage: React.FC<EventDetailPageProps> = ({ id, onNavigate }) => 
             const response = await fetch(`${STRAPI_URL}/api/events?filters[slug][$eq]=${id}&populate=*`);
             const data = await response.json();
             if (data.data && data.data.length > 0) {
-                setEvent(data.data[0]);
+                const rawEvent = data.data[0];
+                const formattedEvent = {
+                    id: rawEvent.id,
+                    ...rawEvent.attributes,
+                    poster: rawEvent.attributes.poster?.data?.attributes,
+                };
+                setEvent(formattedEvent);
             } else {
                 setEvent(null);
             }

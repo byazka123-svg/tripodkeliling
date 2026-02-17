@@ -23,6 +23,45 @@ interface ArticleDetailPageProps {
   onNavigate: (view: View) => void;
 }
 
+// Function to parse and render formatted content
+const renderFormattedContent = (content: string) => {
+    if (!content) return null;
+
+    return content.split('\n').map((line, index) => {
+        // Handle Headings (##)
+        if (line.startsWith('## ')) {
+            return <h2 key={index}>{line.substring(3)}</h2>;
+        }
+
+        // Handle Blockquotes (>)
+        if (line.startsWith('> ')) {
+            return <blockquote key={index}>{line.substring(2)}</blockquote>;
+        }
+
+        // Skip empty lines to avoid creating empty paragraphs
+        if (line.trim() === '') {
+            return null;
+        }
+
+        // Handle Paragraphs with Bold text (**...**)
+        // The regex splits the line by the bold syntax, keeping the delimiters
+        const parts = line.split(/(\*\*.*?\*\*)/g).filter(Boolean);
+
+        return (
+            <p key={index}>
+                {parts.map((part, partIndex) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                        // Return a <strong> element for bold parts
+                        return <strong key={partIndex}>{part.slice(2, -2)}</strong>;
+                    }
+                    // Return regular text parts
+                    return part;
+                })}
+            </p>
+        );
+    });
+};
+
 const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate }) => {
   const [article, setArticle] = useState<StrapiArticle | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +74,13 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate })
             const response = await fetch(`${STRAPI_URL}/api/articles?filters[slug][$eq]=${id}&populate=*`);
             const data = await response.json();
             if (data.data && data.data.length > 0) {
-                setArticle(data.data[0]);
+                const rawArticle = data.data[0];
+                const formattedArticle = {
+                    id: rawArticle.id,
+                    ...rawArticle.attributes,
+                    thumbnail: rawArticle.attributes.thumbnail?.data?.attributes,
+                };
+                setArticle(formattedArticle);
             } else {
                 setArticle(null);
             }
@@ -104,9 +149,7 @@ const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({ id, onNavigate })
             </div>
             
             <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed text-justify">
-                {article.content.split('\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                ))}
+                {renderFormattedContent(article.content)}
             </div>
 
             <div className="mt-12 border-t border-gray-700 pt-8">

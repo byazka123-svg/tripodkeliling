@@ -24,8 +24,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
     setIsOpen(false);
   };
 
-  const handleLoginClick = () => {
-    onNavigate({ page: 'Login' });
+  const handleRegisterClick = () => {
+    onNavigate({ page: 'Daftar' });
     setIsOpen(false);
   }
 
@@ -54,8 +54,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             </div>
           </div>
           <div className="hidden md:block">
-            <button onClick={handleLoginClick} className="border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
-              Login/Register
+            <button onClick={handleRegisterClick} className="border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
+              Daftar Anggota
             </button>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -88,8 +88,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               </button>
             ))}
              <div className="pt-2 px-2">
-                <button onClick={handleLoginClick} className="w-full border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
-                    Login/Register
+                <button onClick={handleRegisterClick} className="w-full border border-green-500 text-green-500 hover:bg-green-600 hover:text-white font-bold py-2 px-4 rounded-md text-sm transition-all duration-300">
+                    Daftar Anggota
                 </button>
              </div>
           </div>

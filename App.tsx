@@ -12,7 +12,7 @@ import ArticleDetailPage from './pages/ArticleDetailPage';
 import EventDetailPage from './pages/EventDetailPage';
 import MemberPostDetailPage from './pages/MemberPostDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
-import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import TripodNetworkPage from './pages/TripodNetworkPage';
 import DonationPage from './pages/DonationPage';
 
@@ -51,15 +51,15 @@ const App: React.FC = () => {
         return <MemberPostDetailPage id={currentView.id ?? ''} onNavigate={handleNavigate} />;
       case 'ProductDetail':
         return <ProductDetailPage id={currentView.id ?? ''} onNavigate={handleNavigate} />;
-      case 'Login':
-        return <LoginPage onNavigate={handleNavigate} />;
+      case 'Daftar':
+        return <RegisterPage onNavigate={handleNavigate} />;
       case 'Beranda':
       default:
         return <HomePage onNavigate={handleNavigate} />;
     }
   };
   
-  const showNavAndFooter = currentView.page !== 'Login';
+  const showNavAndFooter = currentView.page !== 'Daftar';
 
   return (
     <div className={`bg-brand-dark text-white font-sans ${showNavAndFooter ? "pb-16 md:pb-0" : ""}`}>

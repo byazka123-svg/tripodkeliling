@@ -53,7 +53,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ id, onNavigate })
             const response = await fetch(`${STRAPI_URL}/api/store-items?filters[slug][$eq]=${id}&populate=*`);
             const data = await response.json();
             if (data.data && data.data.length > 0) {
-                setProduct(data.data[0]);
+                const rawProduct = data.data[0];
+                const formattedProduct = {
+                    id: rawProduct.id,
+                    ...rawProduct.attributes,
+                    image: rawProduct.attributes.image?.data?.attributes,
+                };
+                setProduct(formattedProduct);
             } else {
                 setProduct(null);
             }

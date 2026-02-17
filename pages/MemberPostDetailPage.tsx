@@ -36,7 +36,14 @@ const MemberPostDetailPage: React.FC<MemberPostDetailPageProps> = ({ id, onNavig
             const response = await fetch(`${STRAPI_URL}/api/member-posts?filters[slug][$eq]=${id}&populate=*`);
             const data = await response.json();
             if (data.data && data.data.length > 0) {
-                setPost(data.data[0]);
+                const rawPost = data.data[0];
+                const formattedPost = {
+                    id: rawPost.id,
+                    ...rawPost.attributes,
+                    postImage: rawPost.attributes.postImage?.data?.attributes,
+                    photographerAvatar: rawPost.attributes.photographerAvatar?.data?.attributes,
+                };
+                setPost(formattedPost);
             } else {
                 setPost(null);
             }
