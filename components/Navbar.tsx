@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   };
 
   const handleRegisterClick = () => {
-    onNavigate({ page: 'Daftar' });
+    onNavigate({ page: 'Pendaftaran' });
     setIsOpen(false);
   }
 

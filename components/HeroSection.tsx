@@ -23,7 +23,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           <button onClick={() => onNavigate({ page: 'Event' })} className="bg-green-600 text-white hover:bg-green-700 font-bold py-3 px-8 rounded-md text-lg transition-all duration-300 transform hover:scale-105">
             Lihat Agenda Terdekat
           </button>
-          <button onClick={() => onNavigate({ page: 'Daftar' })} className="border-2 border-white text-white hover:bg-white hover:text-brand-dark font-bold py-3 px-8 rounded-md text-lg transition-all duration-300 transform hover:scale-105">
+          <button onClick={() => onNavigate({ page: 'Pendaftaran' })} className="border-2 border-white text-white hover:bg-white hover:text-brand-dark font-bold py-3 px-8 rounded-md text-lg transition-all duration-300 transform hover:scale-105">
             Jadi Anggota
           </button>
         </div>

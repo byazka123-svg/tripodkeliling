@@ -81,12 +81,7 @@ const MerchandiseSection: React.FC<MerchandiseSectionProps> = ({ isPreview, onNa
         try {
             const response = await fetch(`${STRAPI_URL}/api/store-items?populate=*`);
             const data = await response.json();
-            const formattedData = data.data.map((item: any) => ({
-              id: item.id,
-              ...item.attributes,
-              image: item.attributes.image?.data?.attributes,
-            }));
-            setAllStoreItems(formattedData || []);
+            setAllStoreItems(data.data || []);
         } catch (error) {
             console.error("Failed to fetch store items:", error);
         } finally {

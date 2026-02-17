@@ -60,13 +60,7 @@ const MemberSpotlight: React.FC<MemberSpotlightProps> = ({ onNavigate }) => {
         try {
             const response = await fetch(`${STRAPI_URL}/api/member-posts?populate=*`);
             const data = await response.json();
-            const formattedData = data.data.map((item: any) => ({
-              id: item.id,
-              ...item.attributes,
-              postImage: item.attributes.postImage?.data?.attributes,
-              photographerAvatar: item.attributes.photographerAvatar?.data?.attributes,
-            }));
-            setMemberPosts(formattedData || []);
+            setMemberPosts(data.data || []);
         } catch (error) {
             console.error("Failed to fetch member posts:", error);
         } finally {

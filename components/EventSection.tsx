@@ -64,11 +64,7 @@ const EventSection: React.FC<EventSectionProps> = ({ isPreview, onNavigate }) =>
         try {
             const response = await fetch(`${STRAPI_URL}/api/events?sort=date:asc`);
             const data = await response.json();
-            const formattedData = data.data.map((item: any) => ({
-              id: item.id,
-              ...item.attributes,
-            }));
-            setAllEvents(formattedData || []);
+            setAllEvents(data.data || []);
         } catch (error) {
             console.error("Failed to fetch events:", error);
         } finally {

@@ -32,8 +32,8 @@ export const SparklesIcon = () => (
     </svg>
 );
 
-export const InstagramIcon = () => (
-  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+export const InstagramIcon: React.FC<{ className?: string }> = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.316 1.363.364 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.316-2.427.364-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.316-1.363-.364-2.427C2.013 14.742 2 14.4 2 11.685v-.08c0-2.643.012-2.987.06-4.043.049-1.064.218 1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.316 2.427-.364C8.92 2.013 9.258 2 12.001 2h.314zM12 6.848c-2.849 0-5.152 2.302-5.152 5.152s2.303 5.152 5.152 5.152 5.152-2.303 5.152-5.152S14.849 6.848 12 6.848zm0 8.487c-1.84 0-3.333-1.493-3.333-3.333S10.16 8.667 12 8.667s3.333 1.493 3.333 3.333-1.493 3.333-3.333 3.333zm4.905-8.527a1.21 1.21 0 112.42 0 1.21 1.21 0 01-2.42 0z" clipRule="evenodd" />
   </svg>
 );
@@ -56,8 +56,8 @@ export const CalendarIcon: React.FC<{isBottomNav?: boolean}> = ({ isBottomNav })
     </svg>
 );
 
-export const LocationMarkerIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+export const LocationMarkerIcon: React.FC<{ className?: string }> = ({ className = "h-5 w-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
     </svg>
@@ -100,8 +100,8 @@ export const PlusIcon = () => (
     </svg>
 );
 
-export const HeartIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+export const HeartIcon: React.FC<{ className?: string }> = ({ className = "h-12 w-12" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
     </svg>
 );

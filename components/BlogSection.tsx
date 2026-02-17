@@ -83,12 +83,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isPreview, onNavigate }) => {
         try {
             const response = await fetch(`${STRAPI_URL}/api/articles?populate=*`);
             const data = await response.json();
-            const formattedData = data.data.map((item: any) => ({
-              id: item.id,
-              ...item.attributes,
-              thumbnail: item.attributes.thumbnail?.data?.attributes,
-            }));
-            setAllArticles(formattedData || []);
+            setAllArticles(data.data || []);
         } catch (error) {
             console.error("Failed to fetch articles:", error);
         } finally {
