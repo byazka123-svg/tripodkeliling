@@ -5,6 +5,8 @@ import CheckoutModal from '../components/CheckoutModal';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
+type StoreCategory = 'Merchandise Official' | 'Gear & Accessories' | 'Secondhand Gear';
+
 interface StrapiMediaFlat {
     url: string;
 }
@@ -12,12 +14,26 @@ interface StrapiStoreItem {
     id: number;
     name: string;
     price: string;
-    category: string;
+    category: StoreCategory;
     description: string;
     image: StrapiMediaFlat;
     slug: string;
 }
 // --- End Strapi Data Types ---
+
+const formatRupiah = (priceString: string): string => {
+    if (!priceString) return '';
+    const number = Number(priceString.replace(/[^0-9]/g, ''));
+    if (isNaN(number)) {
+        return priceString;
+    }
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(number);
+};
 
 interface ProductDetailPageProps {
   id: string; // This is the slug
@@ -79,6 +95,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ id, onNavigate })
   
   const { name, category, price, description, image } = product;
   const imageUrl = `${STRAPI_URL}${image.url}`;
+  const formattedPrice = formatRupiah(price);
 
   return (
     <>
@@ -94,7 +111,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ id, onNavigate })
             <div>
                 <span className="text-green-500 text-sm font-bold uppercase tracking-wider">{category}</span>
                 <h1 className="text-3xl md:text-4xl font-extrabold text-white mt-2 mb-4">{name}</h1>
-                <p className="text-3xl font-semibold text-green-500 mb-6">{price}</p>
+                <p className="text-3xl font-semibold text-green-500 mb-6">{formattedPrice}</p>
                 
                 <div className="prose prose-invert max-w-none text-gray-300 mb-8 text-justify">
                     <p>{description}</p>
@@ -119,7 +136,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ id, onNavigate })
     <CheckoutModal 
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        product={{ name, price, image: imageUrl }}
+        product={{ name, price: formattedPrice, image: imageUrl }}
     />
     </>
   );

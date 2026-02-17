@@ -20,10 +20,10 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     <>
       <HeroSection onNavigate={onNavigate} />
       <AboutSection />
+      <TripodNetworkSection onNavigate={onNavigate} />
       <EventSection isPreview onNavigate={onNavigate} />
       <MemberSpotlight onNavigate={onNavigate}/>
       <BlogSection isPreview onNavigate={onNavigate} />
-      <TripodNetworkSection onNavigate={onNavigate} />
       <CollaborationSection isPreview onNavigate={onNavigate} />
       <MerchandiseSection isPreview onNavigate={onNavigate} />
       <DonationSection />

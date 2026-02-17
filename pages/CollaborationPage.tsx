@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import CollaborationSection from '../components/CollaborationSection';
 import CollaborationProcess from '../components/CollaborationProcess';
-import PastCollaborations from '../components/PastCollaborations';
-import { ChevronDownIcon, HandshakeIcon, CameraIcon, UsersIcon, SparklesIcon } from '../components/Icons';
+import { ChevronDownIcon, HandshakeIcon, CameraIcon, UsersIcon, SparklesIcon, CheckIcon } from '../components/Icons';
 import { View } from '../App';
 
 interface FAQItemProps {
@@ -51,25 +50,54 @@ const faqData = [
     },
 ];
 
-const CollaborationDetailItem: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
-    <div className="flex flex-col sm:flex-row items-start gap-6">
-        <div className="flex-shrink-0 text-green-500 bg-brand-dark p-4 rounded-lg border border-gray-700">
-            {icon}
-        </div>
-        <div>
-            <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-            <div className="text-gray-300 text-justify space-y-3">
-                {children}
-            </div>
-        </div>
-    </div>
-);
+const collaborationDetails = [
+    {
+        id: "Talent/Model",
+        icon: <CameraIcon />,
+        title: "Kembangkan Portofolio Anda",
+        description: "Kesempatan emas bagi para model, MUA (Make-Up Artist), dan desainer untuk memperkaya portofolio melalui sesi foto berkonsep unik. Kolaborasi ini bersifat TFP (Time for Print), di mana kita bertukar jasa untuk menghasilkan karya berkualitas yang dapat digunakan bersama.",
+        benefitsTitle: "Apa yang Anda Dapatkan:",
+        benefits: [
+            "Hasil foto berkualitas tinggi untuk portofolio Anda.",
+            "Kesempatan bekerja sama dengan fotografer-fotografer berbakat.",
+            "Pengalaman dalam sesi pemotretan yang profesional dan suportif."
+        ]
+    },
+    {
+        id: "Media Partnership",
+        icon: <UsersIcon />,
+        title: "Publikasikan Acara Anda",
+        description: "Jadikan Tripod Keliling sebagai media partner resmi untuk acara Anda, baik itu seminar, workshop, konser, atau kegiatan komunitas. Tim kami siap meliput dan mendokumentasikan momen-momen penting acara Anda secara profesional.",
+        benefitsTitle: "Keuntungan Media Partnership:",
+        benefits: [
+            "Dokumentasi visual (foto/video) berkualitas tinggi.",
+            "Publikasi dan promosi acara di seluruh kanal media sosial kami.",
+            "Jangkauan audiens yang lebih luas dan relevan."
+        ]
+    },
+    {
+        id: "Brand/Organization",
+        icon: <SparklesIcon />,
+        title: "Sinergi Kreatif & Komersial",
+        description: "Kami membuka pintu seluas-luasnya bagi brand, perusahaan, atau organisasi untuk bersinergi dalam proyek-proyek kreatif yang saling menguntungkan dan berdampak.",
+        benefitsTitle: "Bentuk Kerjasama Populer:",
+        benefits: [
+            "Sponsorship event untuk eksposur brand maksimal.",
+            "Liputan visual memukau untuk peluncuran produk baru.",
+            "Review gear yang jujur dan mendalam oleh para pegiat fotografi.",
+            "Workshop bersama untuk menjangkau target pasar Anda."
+        ]
+    }
+];
 
 interface CollaborationPageProps {
     onNavigate: (view: View) => void;
 }
 
 const CollaborationPage: React.FC<CollaborationPageProps> = ({ onNavigate }) => {
+    const [activeTab, setActiveTab] = useState(collaborationDetails[0].id);
+    const activeTabData = collaborationDetails.find(tab => tab.id === activeTab);
+
   return (
     <div className="bg-brand-dark">
       {/* Hero Section */}
@@ -88,66 +116,61 @@ const CollaborationPage: React.FC<CollaborationPageProps> = ({ onNavigate }) => 
       <CollaborationSection onNavigate={onNavigate} />
       
       {/* Detail Section */}
-      <section className="py-20 bg-brand-gray">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-              <div className="text-center mb-12">
-                   <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-                      Detail Peluang Kolaborasi<span className="text-green-500">.</span>
-                  </h2>
-                  <p className="mt-4 text-lg text-gray-400">
-                      Pahami lebih dalam bagaimana kita bisa bersinergi.
-                  </p>
-              </div>
-              <div className="space-y-12">
-                  <CollaborationDetailItem icon={<CameraIcon />} title="Talent/Model: Kembangkan Portofolio">
-                      <>
-                        <p>
-                            Kesempatan emas bagi para <strong>model, MUA (Make-Up Artist), dan desainer</strong> untuk memperkaya portofolio melalui sesi foto berkonsep unik. Kolaborasi ini bersifat <strong>TFP (Time for Print)</strong>, di mana kita bertukar jasa untuk menghasilkan karya berkualitas yang dapat digunakan bersama.
-                        </p>
-                        <h4 className="font-semibold text-white mt-4 mb-2">Apa yang Anda Dapatkan:</h4>
-                        <ul className="list-disc list-inside space-y-2 text-gray-300">
-                            <li>Hasil foto berkualitas tinggi untuk portofolio Anda.</li>
-                            <li>Kesempatan bekerja sama dengan fotografer-fotografer berbakat.</li>
-                            <li>Pengalaman dalam sesi pemotretan yang profesional dan suportif.</li>
-                        </ul>
-                      </>
-                  </CollaborationDetailItem>
-                  <CollaborationDetailItem icon={<UsersIcon />} title="Dokumentasi & Liputan: Media Partnership">
-                      <>
-                        <p>
-                            Jadikan Tripod Keliling sebagai <strong>media partner</strong> resmi untuk acara Anda, baik itu seminar, workshop, konser, atau kegiatan komunitas. Tim kami siap meliput dan mendokumentasikan momen-momen penting acara Anda secara profesional.
-                        </p>
-                        <h4 className="font-semibold text-white mt-4 mb-2">Keuntungan Media Partnership:</h4>
-                        <ul className="list-disc list-inside space-y-2 text-gray-300">
-                            <li>Dokumentasi visual (foto/video) berkualitas tinggi.</li>
-                            <li>Publikasi dan promosi acara di seluruh kanal media sosial kami.</li>
-                            <li>Jangkauan audiens yang lebih luas dan relevan.</li>
-                        </ul>
-                      </>
-                  </CollaborationDetailItem>
-                  <CollaborationDetailItem icon={<SparklesIcon />} title="Brand/Organization: Sinergi Kreatif">
-                       <>
-                        <p>
-                            Kami membuka pintu seluas-luasnya bagi <strong>brand, perusahaan, atau organisasi</strong> untuk bersinergi dalam proyek-proyek kreatif yang saling menguntungkan dan berdampak.
-                        </p>
-                        <h4 className="font-semibold text-white mt-4 mb-2">Bentuk Kerjasama Populer:</h4>
-                        <ul className="list-disc list-inside space-y-2 text-gray-300">
-                            <li><strong>Sponsorship:</strong> Dukung event kami dan dapatkan eksposur brand yang maksimal.</li>
-                            <li><strong>Product Launching:</strong> Liputan visual yang memukau untuk peluncuran produk baru Anda.</li>
-                            <li><strong>Review Gear:</strong> Ulasan produk yang jujur dan mendalam oleh para pegiat fotografi.</li>
-                            <li><strong>Workshop Bersama:</strong> Jangkau target pasar Anda melalui workshop fotografi yang kami selenggarakan.</li>
-                        </ul>
-                       </>
-                  </CollaborationDetailItem>
-              </div>
-          </div>
-      </section>
+        <section className="py-20 bg-brand-gray">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+                        Detail Peluang Kolaborasi<span className="text-green-500">.</span>
+                    </h2>
+                    <p className="mt-4 text-lg text-gray-400">
+                        Pahami lebih dalam bagaimana kita bisa bersinergi.
+                    </p>
+                </div>
+                
+                {/* Tab Interface */}
+                <div className="max-w-4xl mx-auto">
+                    <div className="flex flex-col sm:flex-row justify-center items-center border-b border-gray-700 mb-8">
+                        {collaborationDetails.map(tab => (
+                            <button 
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`w-full sm:w-auto font-semibold px-6 py-4 text-center transition-colors duration-300 ${activeTab === tab.id ? 'text-green-500 border-b-2 border-green-500' : 'text-gray-400 hover:text-white'}`}
+                            >
+                                {tab.id}
+                            </button>
+                        ))}
+                    </div>
+                    
+                    {/* Tab Content */}
+                    <div className="bg-brand-dark p-6 sm:p-8 rounded-lg border border-gray-700 transition-all duration-500">
+                        {activeTabData && (
+                             <div className="flex flex-col sm:flex-row items-start gap-6 animate-fade-in">
+                                <div className="flex-shrink-0 text-green-500 bg-brand-gray p-4 rounded-lg border border-gray-600 self-center sm:self-start">
+                                    {activeTabData.icon}
+                                </div>
+                                <div className="w-full">
+                                    <h3 className="text-xl font-bold text-white mb-3">{activeTabData.title}</h3>
+                                    <p className="text-gray-300 text-justify mb-6">{activeTabData.description}</p>
+                                    
+                                    <h4 className="font-semibold text-white mt-4 mb-3">{activeTabData.benefitsTitle}</h4>
+                                    <ul className="space-y-2 text-gray-300">
+                                        {activeTabData.benefits.map((benefit, index) => (
+                                            <li key={index} className="flex items-start">
+                                                <CheckIcon className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                                                <span>{benefit}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
       
       {/* Collaboration Process */}
       <CollaborationProcess />
-
-      {/* Past Collaborations Showcase */}
-      <PastCollaborations />
 
       {/* FAQ Section */}
       <section className="py-20 bg-brand-dark">

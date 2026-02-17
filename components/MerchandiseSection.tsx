@@ -5,6 +5,8 @@ import { RightArrowIcon } from './Icons';
 import { STRAPI_URL } from '../config';
 
 // --- Strapi Data Types ---
+type StoreCategory = 'Merchandise Official' | 'Gear & Accessories' | 'Secondhand Gear';
+
 interface StrapiMediaFlat {
     url: string;
 }
@@ -12,12 +14,25 @@ interface StrapiStoreItem {
     id: number;
     name: string;
     price: string;
-    category: string;
+    category: StoreCategory;
     image: StrapiMediaFlat;
     slug: string;
 }
 // --- End Strapi Data Types ---
 
+const formatRupiah = (priceString: string): string => {
+    if (!priceString) return '';
+    const number = Number(priceString.replace(/[^0-9]/g, ''));
+    if (isNaN(number)) {
+        return priceString;
+    }
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(number);
+};
 
 interface MerchCardProps {
   item: StrapiStoreItem;
@@ -39,7 +54,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ item, onNavigate }) => {
       <div className="p-3 sm:p-4 flex flex-col flex-grow">
         <h3 className="font-bold text-white text-base md:text-lg flex-grow min-h-[56px] flex items-center">{name}</h3>
         <div className="mt-2 sm:mt-4 flex justify-between items-center">
-          <p className="text-green-500 font-semibold text-base md:text-lg">{price}</p>
+          <p className="text-green-500 font-semibold text-base md:text-lg">{formatRupiah(price)}</p>
           <div className="w-8 h-8 rounded-full border-2 border-gray-600 flex items-center justify-center text-green-500 group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white transition-all duration-300">
               <RightArrowIcon />
           </div>
